@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-weight: 500;
 }
 
 .nav{
@@ -23,7 +24,8 @@ box-shadow: 0px 9px 24px -18px rgba(0,0,0,.3);
   width: 100px
 }
 .nav-right{
-
+display: grid;
+grid-template-columns: max-content max-content;
 
 }
 .nav-left>ul{
@@ -44,4 +46,25 @@ margin-right: none;
 
 .nav-left>ul>li>img{
  
+}
+.search{
+  background-color: pink;
+  padding: 1em;
+  max-width: max-content;
+}
+.search-box{
+  font-size: 20px;
+    min-width: 300px;
+    border: none;
+    padding: .5em 1em;
+}
+.search-btn{
+  color: white;
+  background-color: #4090F7;
+  border: none;
+  padding: .5em 1em;
+  font-size: 20px;
+}
+.link{
+  color: #4090F7;
 }
