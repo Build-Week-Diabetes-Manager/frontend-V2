@@ -68,3 +68,14 @@ margin-right: none;
 .link{
   color: #4090F7;
 }
+.user{
+  margin-right: 6px;
+}
+.logout{
+  cursor: pointer;
+}
+.user-i{
+  background-color: grey;
+  border-radius: 50%;
+  padding: 5px;
+}

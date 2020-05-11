@@ -1,14 +1,41 @@
 import React from 'react';
 import { DatePicker } from 'antd';
 import { TimePicker } from 'antd';
+import BglForm from './BglForm'
+import '../../node_modules/react-vis/dist/style.css';
+import {XYPlot, LineSeries} from 'react-vis';
+import ZingChart from 'zingchart-react';
+
 function Dashboard() {
-  function onChange(time, timeString) {
-    console.log(time, timeString);
+  const data = [
+    {x: 0, y: 8},
+    {x: 1, y: 5},
+    {x: 2, y: 4},
+    {x: 3, y: 9},
+    {x: 4, y: 1},
+    {x: 5, y: 7},
+    {x: 6, y: 6},
+    {x: 7, y: 3},
+    {x: 8, y: 2},
+    {x: 9, y: 0}
+  ];
+  const data2 ={
+      type: 'line',
+    
+      series: [{
+        values: [4,5,3,4,5,3,5,4,11],
+        text:"Hello"
+      },
+    {
+      values:[1,2,4,10,6,6,7,8,4],
+      text:"Hooele"
+    }],
+
   }
   return (
     <div className="Dashboard">
-        <DatePicker />
-        <TimePicker use12Hours format="h:mm a" onChange={onChange} />
+        <ZingChart data={data2}/>
+        <BglForm/>
     </div>
   );
 }

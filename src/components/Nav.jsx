@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom'
 import {UserOutlined} from '@ant-design/icons'
 import logo from '../assets/logo-v2.svg'
+import { Tooltip, Button } from 'antd';
 function Nav() {
   return (
 <div className="nav">
@@ -15,7 +16,12 @@ function Nav() {
         <img src={logo} alt=""/>
       </div>
   <div className="nav-right">
-  <UserOutlined />
+    <div className="user">
+    <Tooltip placement="bottom" title={'Zach Young'}>
+    <UserOutlined className='user-i' style={{color:"white"}}/>
+      </Tooltip>
+      </div>
+
     <div className="logout">Logout</div>
   </div>
   </div>
