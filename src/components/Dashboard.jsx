@@ -21,13 +21,22 @@ function Dashboard() {
   ];
   const data2 ={
       type: 'line',
-    
+      title: {
+        color: "#ffff00"
+      },
+      scaleX: {
+        // Set scale label
+        label: { text: 'Days' },
+        // Convert text on scale indices
+        labels: [ 'Morning', 'Noon', 'Afternoon', 'Evening', 'Nighttime', 'MidNight', 'Sun' ]
+      },
+      
       series: [{
-        values: [4,5,3,4,5,3,5,4,11],
+        values: [4,100,3,4,5,3,5],
         text:"Hello"
       },
     {
-      values:[1,2,4,10,6,6,7,8,4],
+      values:[1,2,4,10,6,6,7],
       text:"Hooele"
     }],
 
