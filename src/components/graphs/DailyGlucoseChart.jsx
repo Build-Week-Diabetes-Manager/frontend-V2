@@ -4,7 +4,7 @@ import * as d3 from "d3";
 import { select } from "d3";
 
 export function DailyGlucoseChart() {
-	const [data, setData] = useState([25, 23, 12, 25, ]);
+	const [data, setData] = useState([25, 23, 12, 25,35 ]);
 	const width = "100vh",
 		height = 1000;
 	let margin = { top: 30, right: 0, bottom: 30, left: 40 };

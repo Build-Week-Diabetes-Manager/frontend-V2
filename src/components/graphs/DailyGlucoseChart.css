@@ -1,12 +1,10 @@
-.dsg_container{
-    border: 1px solid salmon;
-    display: flex;
-    flex-flow: column ;
-    align-items: center;
-    margin: 0 auto;
+.dsg_container {
+	max-width: 80%;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	margin: 0 auto;
 }
-
-.s3_graph{
-    border: 2px solid grey;
-
+.s3_graph {
+	border: 2px solid grey;
 }
