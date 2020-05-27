@@ -1,82 +1,88 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./DailyGlucoseChart.css";
-import * as d3 from "d3";
-import { select } from "d3";
+import { select, axisBottom, scaleLinear, axisRight, scaleBand } from "d3";
 
 export function DailyGlucoseChart() {
-	const [data, setData] = useState([25, 23, 12, 25,35 ]);
-	const width = "100vh",
-		height = 1000;
-	let margin = { top: 30, right: 0, bottom: 30, left: 40 };
+	const [data, setData] = useState([25, 23, 12, 25, 35, 75, 31, 5]);
+	const [inputNum, setInputNum] = useState();
 	const svgRef = useRef(null);
 
-	const color = "steelblue";
-
-	let y = d3
-		.scaleLinear()
-		.domain([0, d3.max(data, (d) => d.value)])
-		.nice()
-		.range([height - margin.bottom, margin.top]);
-
-	let x = d3
-		.scaleBand()
-		.domain(d3.range(data.length))
-		.range([margin.left, width - margin.right])
-		.padding(0.1);
-
-	let xAxis = (g) =>
-		g.attr("transform", `translate(0,${height - margin.bottom})`).call(
-			d3
-				.axisBottom(x)
-				.tickFormat((i) => data[i].name)
-				.tickSizeOuter(0)
-		);
-
-	let yAxis = (g) =>
-		g
-			.attr("transform", `translate(${margin.left},0)`)
-			.call(d3.axisLeft(y).ticks(null, data.format))
-			.call((g) => g.select(".domain").remove())
-			.call((g) =>
-				g
-					.append("text")
-					.attr("x", -margin.left)
-					.attr("y", 10)
-					.attr("fill", "currentColor")
-					.attr("text-anchor", "start")
-					.text(data.y)
-            );
-            
 	useEffect(() => {
-		if (data && svgRef.current) {
-			const svg = d3.select(svgRef.current);
+		const minXScaleRange = 0;
 
-			svg
-				.append("g")
-				.attr("fill", color)
-				.selectAll("rect")
-				.data(data)
-				.join("rect")
-				.attr("y", (d) => y(d.value))
-				.attr("x", (d, i) => x(i))
-				.attr("height", (d) => y(0) - y(d.value))
-				.attr("width", x.bandwidth())
-			svg.append("g").call(xAxis);
+		const svg = select(svgRef.current);
+		const xScale = scaleBand()
+			.domain(data.map((value, index) => index))
+			.range([minXScaleRange, 500])
+			.padding(0.4);
 
-			svg.append("g").call(yAxis);
-		}
+		const yScale = scaleLinear().domain([0, 100]).range([150, 0]).clamp(true);
+
+		const colorScale = scaleLinear()
+			.domain([30, 50, 100])
+			.range(["steelblue", "yellow", "red"])
+			.clamp(true);
+		const xAxis = axisBottom(xScale).ticks(data.length);
+
+		svg.select(".x-axis").style("transform", "translateY(150px)").call(xAxis);
+
+		const yAxis = axisRight(yScale);
+		svg.select(".y-axis").style("transform", "translateX(500px)").call(yAxis);
+
+		svg
+			.selectAll(".bar")
+			.data(data)
+			.join("rect")
+			.attr("class", "bar")
+			.style("transform", "scale(1, -1)")
+			.attr("x", (value, index) => xScale(index))
+			.attr("y", -150)
+			.attr("width", xScale.bandwidth())
+			.on("mouseenter", (value, index) => {
+				svg
+					.selectAll(".tooltip")
+					.data([value])
+					.join("text")
+					.attr("class", "tooltip")
+					.text(value)
+					.attr("x", xScale(index))
+					.attr("y", yScale(value) - 5)
+					.transition()
+					.attr("opacity", 1);
+			})
+			.on("mouseleave", () => svg.select(".tooltip").remove())
+			.transition()
+			.attr("height", (value) => 150 - yScale(value))
+			.attr("fill", colorScale);
 	}, [data]);
 
+	const addNumber = (e) => {
+		e.preventDefault();
+		setData([...data, inputNum]);
+	};
+	
 	return (
 		<div className="dsg_container">
-			<svg ref={svgRef} width={500} className="s3_graph"></svg>
-			<br />
-			<button onClick={() => setData(data.push((value) => value + 5))}>
+			<svg ref={svgRef} width={500} className="s3_graph">
+				<g className="x-axis" />
+				<g className="y-axis" />
+			</svg>
+			<br/>
+			<button onClick={() => setData(data.map((value) => value + 5))}>
 				Update data
 			</button>
-			<button onClick={() => setData(data.filter((value) => value < 35))}>
+			{/* <br />
+			<button onClick={() => setData(data.filter((value) => value < 50))}>
 				Filter Data
-			</button>
+			</button> */}
+<br/>
+			<input
+				type="number"
+				placeholder="Add a number"
+				value={inputNum}
+				onChange={(e) => setInputNum(e.target.value)}
+			/>
+			<button onClick={addNumber}>Add value</button>
 		</div>
 	);
 }

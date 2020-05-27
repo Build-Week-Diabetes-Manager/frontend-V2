@@ -5,6 +5,8 @@
 	align-items: center;
 	margin: 0 auto;
 }
-.s3_graph {
-	border: 2px solid grey;
+
+svg {
+	background: #eee;
+	overflow: visible !important;
 }
